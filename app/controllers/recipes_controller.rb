@@ -9,8 +9,27 @@ class RecipesController < ApplicationController
 
   def new
     @recipe = Recipe.new
+    @recipe.ingredients.build(name: "1")
   end
 
   def create
+    Recipe.create(recipe_params)
+    redirect_to recipes_path
+  end
+
+  private
+
+  def recipe_params
+    params.require(:recipe).permit(
+      :title,
+      ingredients_attributes: [
+        :name,
+        :quantity
+        # :city,
+        # :state,
+        # :zipcode,
+        # :address_type
+      ]
+    )
   end
 end
